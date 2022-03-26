@@ -9,7 +9,6 @@ let listeners = [];
 let selected = [];
 
 const cb = (e) => {
-  console.log("ziuuuu");
   if (mousedown) {
     e.target.classList.add("selected");
     if (!selected.includes(e.target)) selected.push(e.target);
