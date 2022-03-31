@@ -1,10 +1,10 @@
 const parseMap = (res) => {
   const map = document.createElement("div");
   map.classList.add("map");
-  res.forEach((row) => {
+  res.forEach((row, i) => {
     const hor = document.createElement("div");
     hor.classList.add("row");
-    row.forEach((cell) => {
+    row.forEach((cell, j) => {
       const box = document.createElement("div");
       box.classList.add("box");
       switch (cell) {
@@ -20,6 +20,13 @@ const parseMap = (res) => {
           box.appendChild(token);
           break;
         default:
+          if (
+            i === 0 ||
+            j === 0 ||
+            i === res.length - 1 ||
+            j === row.length - 1
+          )
+            box.classList.add("hidden");
           break;
       }
       hor.appendChild(box);

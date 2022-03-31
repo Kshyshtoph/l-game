@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../static/style.css" />
+  </head>
+  <body>
+    <div id="root" class="map"></div>
+    <h1 class="control"></h1>
+    <script src="../static/checkValid.js"></script>
+    <script>
+      const control = document.querySelector(".control");
+      const root = document.getElementById("root");
+      const row = new Array(6).fill(0);
+      const map = new Array(6).fill(row);
+      map.forEach((col, i) => {
+        const row = document.createElement("div");
+        row.classList.add("row");
+        col.forEach((e, j) => {
+          const box = document.createElement("div");
+          box.classList.add("box");
+          if (
+            i !== 0 &&
+            i !== map.length - 1 &&
+            j !== 0 &&
+            j !== col.length - 1
+          )
+            box.classList.add("available");
+          row.appendChild(box);
+        });
+        root.appendChild(row);
+      });
+
+      const selected = [];
+
+      const boxes = document.querySelectorAll(".box");
+      boxes.forEach((box, index) => {
+        if (!box.classList.contains("available")) {
+          box.style.display = "none";
+          return;
+        }
+        box.addEventListener("click", (e) => {
+          e.target.classList.toggle("selected");
+          selected.includes(index)
+            ? (() => {
+                const toSplice = selected.indexOf(index);
+                selected.splice(toSplice, 1);
+              })()
+            : selected.push(index);
+          selected.sort((a, b) => a - b);
+          control.textContent = JSON.stringify(selected);
+          checkValid(selected);
+          if (checkValid(selected)) control.textContent += "matching shape!";
+        });
+      });
+    </script>
+  </body>
+</html>

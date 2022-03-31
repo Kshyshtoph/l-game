@@ -1,28 +1,25 @@
 const handleMessage = ({ data }) => {
   const mes = JSON.parse(data);
   const { type } = mes;
-  console.log(type);
-  if (type === "counter") {
+  if (type === messages.COUNTER) {
     counter = mes.counter;
-    console.log(`${type} ${counter}`);
     root.append("you're player #" + mes.counter);
     setTimeout(() => {
-      ws.send("getMap");
-    }, 3000);
+      ws.send(messages.GET_MAP);
+    }, 1000);
   }
-  if (type === "map") {
-    console.log("map recieved!");
-    parseMap(mes.map);
+  if (type === messages.MAP) parseMap(mes.map);
+  if (type === messages.INITIATIVE) {
+    if (mes.initiative === counter) phase = 1;
   }
-  const boxes = document.querySelectorAll(".box");
+  if (type === messages.KICK) {
+    root.textContent = "your opponent left!";
+    setTimeout(() => {
+      ws.send(messages.GET_MAP);
+    }, 1000);
+  }
 
-  const available = [...boxes].filter((el) => {
-    if (counter > 2) return false;
-    const allPossible = ["p1", "p2"];
-    const index = allPossible.findIndex((el) => el === `p${counter}`);
-    allPossible.splice(index, 1);
-    return !el.classList.contains(allPossible[0]) && el.children.length === 0;
-  });
+  const available = getAvailable("piece");
   available.forEach((el) => {
     el.classList.add("available");
   });

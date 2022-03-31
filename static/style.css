@@ -1,0 +1,59 @@
+* {
+  box-sizing: border-box;
+}
+.map {
+  height: 200px;
+  width: 200px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.row {
+  height: 25%;
+  width: 100%;
+  display: flex;
+}
+
+.box {
+  position: relative;
+  width: 25%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid black;
+}
+.token {
+  background-color: red;
+  border-radius: 50%;
+  border: 3px solid darkred;
+  height: 80%;
+  width: 80%;
+}
+.p2 {
+  background-color: blue;
+}
+.p1 {
+  background-color: green;
+}
+.opaque {
+  opacity: 0.5;
+}
+.row:first-child,
+.row:last-child {
+  height: 0;
+}
+.available::after {
+  content: "";
+  background-color: rgba(200, 75, 75, 0.3);
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+.selected {
+  background-color: rgba(75, 75, 75, 0.3);
+}
+.hidden {
+  display: none;
+}

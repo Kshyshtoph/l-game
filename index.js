@@ -13,7 +13,7 @@ app.use(express.static(__dirname + "/static"));
 var server = http.createServer(app);
 server.listen(port);
 
-console.log("http server listening on %d", port);
+"http server listening on %d", port;
 
 var wss = new WebSocketServer({ server: server });
 
