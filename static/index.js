@@ -1,15 +1,3 @@
-const root = document.querySelector(".root");
-var host = location.origin.replace(/^http/, "ws");
-let ws = new WebSocket(host);
-
-let mousedown = false;
-let phase = 1;
-
-let counter;
-let listeners = [];
-let selected = [];
-let boxes;
-
 const cbPiece = (e, index) => {
   if (mousedown) {
     e.target.classList.add("selected");
@@ -51,6 +39,7 @@ document.addEventListener("mousedown", (e) => {
 });
 document.addEventListener("mouseup", () => {
   mousedown = false;
+
   selected.forEach(({ node }) => node.classList.remove("selected"));
   selected.sort((a, b) => a.index - b.index);
 

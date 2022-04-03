@@ -13,10 +13,8 @@ const cbMoveToken = (e, index) => {
   phase = 3;
 };
 const cbSelectToken = (e) => {
-  console.log("dupa");
   if (phase !== 2) return;
   selected = [{ node: e }];
-  console.log(e.children);
   e.classList.add("selected");
   const boxes = [...document.querySelectorAll(".box")];
   const available = getAvailable("token");

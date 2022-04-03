@@ -9,11 +9,23 @@
   </head>
   <body>
     <h1>gdyby kózka nie skakała to by skały srały!</h1>
-    <div class="root"></div>
+    <div class="wrapper">
+      <div class="root"></div>
+      <div class="gameInfo">
+        <div>You're player #<span class="whoAmI"></span></div>
+        <div>Player on turn #<span class="turnOf"></span></div>
+        <div>the game is <span class="gameStatus"></span></div>
+        <div class="gameOver">GAME OVER</div>
+        <button class="rev" onclick="revenge()">REVENGE</button>
+      </div>
+    </div>
     <button onclick="endMove()">end move</button>
+    <button onclick="getTables()">getTables</button>
+    <script src="./globalVars.js"></script>
     <script src="./checkValid.js"></script>
     <script src="./messages.js"></script>
     <script src="./getAvailable.js"></script>
+    <script src="./checkLoose.js"></script>
     <script src="./parseMap.js"></script>
     <script src="./handleMessage.js"></script>
     <script src="/index.js"></script>
@@ -21,7 +33,20 @@
     <script>
       const endMove = () => {
         if (phase !== 2) return;
+        phase = 0;
         ws.send(JSON.stringify({ type: messages.END_MOVE }));
+      };
+      const getTables = () => {
+        fetch(location.origin + "/tables")
+          .then((res) => res.json())
+          .then((res) => console.log([...res]));
+      };
+      const revenge = () => {
+        fetch(location.origin + `/reset/${tableId}`)
+          .then((res) => res.json())
+          .then((res) => console.log([...res]));
+        document.querySelector(".gameOver").style.display = "none";
+        document.querySelector(".rev").style.display = "none";
       };
     </script>
   </body>

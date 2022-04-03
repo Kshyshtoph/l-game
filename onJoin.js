@@ -1,4 +1,5 @@
 const generateGame = require("./generate");
+const messages = require("./messages");
 
 const onJoin = (ws, tables) => {
   const id = Date.now();
@@ -11,8 +12,30 @@ const onJoin = (ws, tables) => {
     table = tables[tables.length - 1];
     table.players.push(player);
   }
-  ws.send(JSON.stringify({ type: "map", map: table.game }));
-  console.log(tables);
+  const counter = table.players.length;
+  new Promise((res) =>
+    setTimeout(() => {
+      res();
+      ws.send(
+        JSON.stringify({
+          type: messages.COUNTER,
+          counter,
+        })
+      );
+    }, 1000)
+  ).then(() =>
+    table.players.forEach(({ ws }) =>
+      ws.send(
+        JSON.stringify({
+          tableID: tables.length - 1,
+          type: messages.MAP,
+          map: table.game,
+          initiative: table.initiative,
+          gameOn: table.players.length === 2,
+        })
+      )
+    )
+  );
   return table;
 };
 

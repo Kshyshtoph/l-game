@@ -1,6 +1,9 @@
 * {
   box-sizing: border-box;
 }
+.wrapper {
+  display: flex;
+}
 .map {
   height: 200px;
   width: 200px;
@@ -55,5 +58,31 @@
   background-color: rgba(75, 75, 75, 0.3);
 }
 .hidden {
+  display: none;
+}
+.gameStatus::after {
+  content: "OFF";
+  font-size: 18px;
+  color: red;
+}
+.gameStatus.on::after {
+  content: "ON";
+  font-size: 18px;
+  color: darkgreen;
+}
+
+.gameOver {
+  font-size: 22px;
+  display: none;
+}
+.gameOver::after {
+  content: " YOU WIN!!!";
+  color: darkgreen;
+}
+.gameOver.loss::after {
+  content: " YOU LOOSE!!!";
+  color: red;
+}
+.rev {
   display: none;
 }

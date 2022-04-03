@@ -1,12 +1,12 @@
 const express = require("express");
 const app = express();
 const generateGame = require("./generate");
+const messages = require("./messages");
 var WebSocketServer = require("ws").Server;
 var http = require("http");
 var port = process.env.PORT || 3000;
-let game = generateGame();
 
-const handleConnection = require("./handleConnection");
+const { handleConnection, tables } = require("./handleTables");
 
 app.use(express.static(__dirname + "/static"));
 
@@ -18,10 +18,24 @@ server.listen(port);
 var wss = new WebSocketServer({ server: server });
 
 wss.on("connection", (ws) => {
-  handleConnection(ws, game);
+  handleConnection(ws);
 });
 
-app.get("/reset", (_, res) => {
-  game = generateGame();
-  res.send(game.map);
+app.get("/reset/:tableID", (req, res) => {
+  const { tableID } = req.params;
+  const table = tables[parseInt(tableID)];
+  table.game = generateGame();
+  table.players.forEach(({ ws }) =>
+    ws.send(
+      JSON.stringify({
+        tableID,
+        type: messages.MAP,
+        map: table.game,
+        initiative: table.initiative,
+        gameOn: table.players.length === 2,
+      })
+    )
+  );
 });
+
+app.get("/tables", (_, res) => res.send(JSON.stringify(tables)));

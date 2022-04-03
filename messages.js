@@ -3,9 +3,10 @@ const messages = {
   END_MOVE: "END_MOVE",
   INITIATIVE: "INITIATIVE",
   KICK: "KICK",
-  GET_MAP: "GET_MAP",
-  MAP: "MAP",
   COUNTER: "COUNTER",
+  TABLE: "TABLE",
+  LOST: "LOST",
+  WIN: "WIN",
 };
 
 module.exports = messages;

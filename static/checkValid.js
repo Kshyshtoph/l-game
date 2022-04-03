@@ -8,8 +8,11 @@ const possibleShapes = [
   [7, 8, 14, 20],
   [9, 13, 14, 15],
 ];
+let prev = [];
 
 const checkValid = (selected) => {
+  const condition = JSON.stringify(selected) === JSON.stringify(prev);
+  if (condition) return false;
   return possibleShapes.some((shape) => {
     const decreaseToMatch = selected[0] - shape[0];
     selected.map((e) => e - decreaseToMatch);
