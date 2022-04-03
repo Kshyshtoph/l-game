@@ -44,6 +44,6 @@ setInterval(() => {
       ws.send(JSON.stringify({ type: "PING" }));
     })
   );
-});
+}, 50000);
 
 app.get("/tables", (_, res) => res.send(JSON.stringify(tables)));
