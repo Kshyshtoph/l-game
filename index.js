@@ -38,4 +38,12 @@ app.get("/reset/:tableID", (req, res) => {
   );
 });
 
+setInterval(() => {
+  tables.forEach(({ players }) =>
+    players.foreach(({ ws }) => {
+      ws.send(JSON.stringify({ type: "PING" }));
+    })
+  );
+});
+
 app.get("/tables", (_, res) => res.send(JSON.stringify(tables)));
